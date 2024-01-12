@@ -1,0 +1,149 @@
+[
+    {
+        "id": 3,
+        "title": "Cooking Chronicles",
+        "author": "Chef Foodie",
+        "content": "Delicious recipes, kitchen tips, and culinary adventures for food enthusiasts.",
+        "date": "2024-01-07"
+    },
+    {
+        "id": 4,
+        "title": "Tech Trends Unleashed",
+        "author": "Tech Guru",
+        "content": "Stay updated on the latest technology trends and innovations shaping the future.",
+        "date": "2024-01-06"
+    },
+    {
+        "id": 5,
+        "title": "Health and Wellness Corner",
+        "author": "Wellness Enthusiast",
+        "content": "Explore holistic approaches to health, fitness routines, and mindful living.",
+        "date": "2024-01-05"
+    },
+    {
+        "id": 6,
+        "title": "Financial Freedom Insights",
+        "author": "Money Maven",
+        "content": "Discover practical tips for managing finances, investments, and achieving financial freedom.",
+        "date": "2024-01-04"
+    },
+    {
+        "id": 7,
+        "title": "Bookworm's Haven",
+        "author": "Literary Explorer",
+        "content": "Dive into the world of literature with book reviews, recommendations, and literary discussions.",
+        "date": "2024-01-03"
+    },
+    {
+        "id": 8,
+        "title": "Environmental Advocacy Hub",
+        "author": "Green Activist",
+        "content": "Join the movement for a sustainable future through eco-friendly practices and environmental awareness.",
+        "date": "2024-01-02"
+    },
+    {
+        "id": 9,
+        "title": "Artistry Unleashed",
+        "author": "Creative Spirit",
+        "content": "Explore the world of art, creativity, and self-expression through various artistic mediums.",
+        "date": "2024-01-01"
+    },
+    {
+        "id": 10,
+        "title": "Gaming Galore",
+        "author": "Game Master",
+        "content": "Stay updated on the latest gaming news, reviews, and in-depth analysis of popular video games.",
+        "date": "2023-12-31"
+    },
+    {
+        "id": 11,
+        "title": "This is the newly added blog 10",
+        "author": "Nitesh",
+        "content": "Kuch bhi testing ke liye",
+        "date": "2024-01-10"
+    },
+    {
+        "id": 12,
+        "title": "This is the newly added blog 11",
+        "author": "Sandeep",
+        "content": "Kuch nahi",
+        "date": "2024-01-10"
+    },
+    {
+        "id": 13,
+        "title": "Artistry Unleashed Testing",
+        "author": "Ajay",
+        "content": "Hello",
+        "date": "2024-01-11"
+    },
+    {
+        "title": "Velit ex harum dele",
+        "author": "Veritatis laboriosam",
+        "content": "Autem eum soluta vit",
+        "id": 1705043561585,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Velit ex harum dele",
+        "author": "Veritatis laboriosam",
+        "content": "Autem eum soluta vit",
+        "id": 1705043604466,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Consectetur consequ",
+        "author": "Autem ut velit ea pe",
+        "content": "In fugiat eum eius ",
+        "id": 1705043633895,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Pariatur Ut corrupt",
+        "author": "Doloribus est dolor",
+        "content": "Fuga Occaecat dolor",
+        "id": 1705043677745,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Aliquam adipisci dol",
+        "author": "Velit omnis illo har",
+        "content": "Rerum architecto aut",
+        "id": 1705044333101,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Omnis corrupti exer",
+        "author": "Sunt sunt est por",
+        "content": "Lorem officia ea min",
+        "id": 1705044426542,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Abhishek ki life",
+        "author": "Abhishek",
+        "content": "Testing data",
+        "id": 1705044460885,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Ipsa tempore ut cu",
+        "author": "Nitesh Amet eiusmod iste o",
+        "content": "Dolorum dolor eaque ",
+        "id": 1705044496836,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Ea asperiores tempor",
+        "author": "Aut consectetur rati",
+        "content": "Esse et blanditiis ",
+        "id": 1705044506128,
+        "date": "2024/1/12"
+    },
+    {
+        "title": "Ex ipsa aut qui nat",
+        "author": "Unde consequatur Ul",
+        "content": "Voluptate amet pers",
+        "id": 1705044605413,
+        "date": "2024/1/12"
+    }
+]

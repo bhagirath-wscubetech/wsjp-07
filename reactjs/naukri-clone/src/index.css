@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.top-menu {
+    border-bottom: 4px transparent solid;
+    padding: 5px;
+    position: relative;
+    transition: 0.2s;
+}
+
+.top-menu:hover {
+    border-bottom: 4px #f05537 solid;
+}
+
+.top-menu:hover .sub-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sub-menu {
+    background-color: white;
+    display: flex;
+    width: 800px;
+    top: 35px;
+    left: -50px;
+    gap: 40px;
+    padding: 10px;
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px grey;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sub-menu div {
+    flex-grow: 1;
+    border-right: 1px rgba(194, 190, 190, 0.7) solid;
+    padding: 10px;
+}
+
+.sub-menu div:last-child {
+    border-right: none;
+}
