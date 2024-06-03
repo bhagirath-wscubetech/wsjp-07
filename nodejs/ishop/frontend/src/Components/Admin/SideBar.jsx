@@ -1,20 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdDashboard } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCaretDown } from "react-icons/fa";
 import { FaSitemap } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { IoIosColorPalette } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
+import { GrTransaction } from "react-icons/gr";
+import { useSelector } from 'react-redux';
 
 const SideBar = () => {
     const [active, setActive] = useState(0);
+    const admin = useSelector(store => store.admin);
+    const navigator = useNavigate();
+
+
+    // useEffect(
+    //     () => {
+    //         if (admin.data == null) {
+    //             navigator('/admin/login');
+    //         }
+    //     }, []
+    // )
+
+
     const items = [
         {
             name: "Dashboard",
             icon: <MdDashboard />,
             url: "/admin",
+            children: []
+        },
+        {
+            name: "Transactions",
+            icon: <GrTransaction />,
+            url: "/admin/transaction",
+            children: []
+        },
+        {
+            name: "Orders",
+            icon: <GrTransaction />,
+            url: "/admin/orders",
             children: []
         },
         {
@@ -54,11 +81,11 @@ const SideBar = () => {
             children: [
                 {
                     name: "Add",
-                    url: "/admin/product/add"
+                    url: "/admin/color/add"
                 },
                 {
                     name: "View",
-                    url: "/admin/product/view"
+                    url: "/admin/color/view"
                 }
             ]
         },
@@ -76,7 +103,7 @@ const SideBar = () => {
         }
     ]
     return (
-        <div className='h-[100vh] bg-gradient-to-r from-violet-600 to-indigo-600 p-2'>
+        <div className='min-h-[100vh] bg-gradient-to-r from-violet-600 to-indigo-600 p-2'>
             <div className='text-3xl text-white p-3 text-center font-bold'>Admin Panel</div>
             <hr />
 

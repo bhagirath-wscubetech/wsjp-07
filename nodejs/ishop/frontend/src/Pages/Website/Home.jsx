@@ -1,17 +1,56 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Container from "../../Components/Website/Container";
 import ProductBox from '../../Components/Website/ProductBox';
 import Slider from "react-slick";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { MainContext } from '../../Main';
 const Home = () => {
+    const [category, setCategory] = useState([]);
+    const [product, setProduct] = useState([]);
+    const { fetchCategory, fetchProduct } = useContext(MainContext);
+    const getData = () => {
+        fetchCategory()
+            .then(
+                (success) => {
+                    if (success.status == 1) {
+                        setCategory(success.data);
+                    } else {
+                        setCategory([]);
+                    }
+                }
+            ).catch(
+                (error) => {
+
+                }
+            )
+
+        fetchProduct()
+            .then(
+                (success) => {
+                    if (success.status == 1) {
+                        setProduct(success.data);
+                    } else {
+                        setProduct([]);
+                    }
+                }
+            ).catch(
+                (error) => {
+
+                }
+            )
+    }
+    useEffect(
+        getData,
+        [] // first render
+    )
     return (
         <>
             <div className='w-full h-[450px] md:h-[650px] relative banner-bg'>
                 <img src="images/corousel.png" className='absolute md:h-[auto] h-[100%] bottom-0 sm:right-[30%] md:right-[100px]' alt="" />
             </div>
-            <BestSeller />
+            <BestSeller category={category} products={product} />
             <Container>
                 <ProductSlider />
             </Container>
@@ -21,97 +60,38 @@ const Home = () => {
 
 export default Home;
 
-
-function BestSeller() {
-    const items = [
-        {
-            name: "Mac"
-        },
-        {
-            name: "iPhone"
-        },
-        {
-            name: "iPad"
-        },
-        {
-            name: "iPod"
-        },
-        {
-            name: "Accessories"
-        }
-    ]
-
-    const products = [
-        {
-            name: "Apple Macbook Pro",
-            image: "apple_macbook.png",
-            yellow: 4,
-            actual_price: 599,
-            price: 499,
-            hot: true
-        },
-        {
-            name: "Apple Macbook Air",
-            image: "Apple Macbook Air.png",
-            yellow: 3,
-            actual_price: 599,
-            price: 499,
-            hot: false
-        }, {
-            name: "Apple Macbook Pro",
-            image: "apple_macbook.png",
-            yellow: 4,
-            actual_price: 599,
-            price: 499,
-            hot: true
-        },
-        {
-            name: "Apple Macbook Air",
-            image: "Apple Macbook Air.png",
-            yellow: 3,
-            actual_price: 599,
-            price: 499,
-            hot: true
-        }, {
-            name: "Apple Macbook Pro",
-            image: "apple_macbook.png",
-            yellow: 4,
-            actual_price: 599,
-            price: 499,
-            hot: false
-        },
-        {
-            name: "Apple Macbook Air",
-            image: "Apple Macbook Air.png",
-            yellow: 3,
-            actual_price: 599,
-            price: 499,
-            hot: false
-        }
-    ]
+function BestSeller({ category, products }) {
+    const [filterCat, setFiterCat] = useState(null);
+    if (filterCat != null) {
+        products = products.filter(
+            (prod) => {
+                return prod.category._id == filterCat;
+            }
+        )
+    }
     return (
         <Container>
             <div className='text-center text-[30px] font-bold uppercase my-5'>
                 Best Seller
             </div>
             <ul className='hidden md:flex justify-center gap-[20px]'>
-                <li>All</li>
+                <li className='cursor-pointer' onClick={() => setFiterCat(null)}>All</li>
                 {
-                    items.map(
-                        (item, index) => {
-                            return <li key={index}>{item.name}</li>
+                    category.map(
+                        (cat, index) => {
+                            return <li className='cursor-pointer' onClick={() => setFiterCat(cat._id)} key={index}>{cat.name}</li>
                         }
                     )
                 }
             </ul>
-
             <div className='md:hidden px-2'>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>All</option>
+                <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                onChange={(e) => setFiterCat(e.target.value == "" ? null : e.target.value)}>
+                    <option selected value="">All</option>
                     {
-                        items.map(
-                            (item, index) => {
-                                return <option key={index}>{item.name}</option>
+                        category.map(
+                            (cat, index) => {
+                                return <option value={cat._id} key={index}>{cat.name}</option>
                             }
                         )
                     }
@@ -121,13 +101,11 @@ function BestSeller() {
                 {
                     products.map(
                         (product, index) => {
-                            return <ProductBox {...product} key={index} />
+                            return <ProductBox grid={true} {...product} key={index} />
                         }
                     )
                 }
             </div>
-
-
         </Container>
     );
 }
@@ -202,7 +180,7 @@ const ProductSlider = () => {
                     data.map(
                         (d, i) => {
                             return (
-                                <div className='p-3'>
+                                <div key={i} className='p-3'>
                                     <div className='shadow grid grid-cols-2 h-[150px] p-2'>
                                         <img className='w-full' src={"images/" + d.img} alt="" />
                                         <div>{d.title}</div>

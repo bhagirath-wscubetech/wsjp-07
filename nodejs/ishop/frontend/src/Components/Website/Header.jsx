@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import Container from './Container';
 import { FaCaretDown } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
@@ -6,9 +7,14 @@ import { IoBag } from "react-icons/io5";
 import { IoMdMenu } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { IoMdClose } from "react-icons/io";
+import { logout } from '../../reducers/user';
+import { emptyCart } from '../../reducers/cart';
 
 const Header = () => {
     const [toggle, setToggle] = useState(false);
+    const cart = useSelector((store) => store.cart);
+    const user = useSelector((store) => store.user);
+    const dispatcher = useDispatch();
     const items = [
         {
             name: "Home",
@@ -37,7 +43,7 @@ const Header = () => {
     ]
     return (
         <>
-            <div className='w-[full] header-bg md:block hidden'>
+            <div className='w-[full] header-bg md:block hidden sticky top-0 z-50 bg-white'>
                 <Container classes="flex justify-between">
                     <div className='flex gap-4 items-center'>
                         <span>EN</span>
@@ -47,10 +53,24 @@ const Header = () => {
                     </div>
                     <div className='flex gap-4 items-center'>
                         <FaRegUser />
-                        <span>My Profile</span>
+                        {
+                            user.data == null
+                                ? <Link to={"/login"}> <span>Login</span> </Link>
+                                : <>
+                                    <Link to={"/my-profile"}> <span>My Profile</span></Link>
+                                    <span onClick={
+                                        () => {
+                                            dispatcher(logout())
+                                            dispatcher(emptyCart());
+                                        }
+                                    } className='cursor-pointer'>Logout</span>
+                                </>
+                        }
                         <IoBag />
-                        <span>2 Items</span>
-                        <span className='text-[grey]'>$998</span>
+                        <Link to={"/cart"}>
+                            <span>{cart.data.length} Items</span>
+                        </Link>
+                        <span className='text-[grey]'>${cart.total}</span>
                     </div>
                 </Container>
             </div>

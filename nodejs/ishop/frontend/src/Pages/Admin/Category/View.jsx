@@ -1,8 +1,79 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from '../../../Components/Admin/Card';
 import BreadCrum from '../../../Components/Admin/BreadCrum';
+import { MainContext } from '../../../Main';
+import { FaPencilAlt } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FaCirclePlus } from "react-icons/fa6";
 
 const View = () => {
+    const { fetchCategory, apiBaseUrl, categoryBaseUrl, notify } = useContext(MainContext);
+    const [category, setCategory] = useState([]); // state init
+    const [imgBaseUrl, setImgUrl] = useState(""); // state init
+
+    const getCategory = () => {
+        fetchCategory()
+            .then(
+                (success) => {
+                    if (success.status == 1) {
+                        setCategory(success.data);
+                        setImgUrl(success.imgBaseUrl);
+                    } else {
+                        setCategory([]);
+                    }
+                }
+            ).catch(
+                (error) => {
+
+                }
+            )
+    }
+
+    useEffect(
+        getCategory,
+        [] // first render
+    )
+
+    const updateStatus = (id, status) => {
+        axios.patch(apiBaseUrl + categoryBaseUrl + "/change-status/" + id + "/" + status)
+            .then(
+                (success) => {
+                    if (success.data.status == 1) {
+                        notify(success.data.msg, "success");
+                        getCategory();
+                    } else {
+                        notify(success.data.msg, "error");
+                    }
+                }
+            ).catch(
+                () => {
+                    notify("Client side error", "error");
+                }
+            )
+    }
+
+
+    const delCat = (catId, imageName) => {
+        axios.delete(apiBaseUrl + categoryBaseUrl + "/delete/" + catId + "/" + imageName)
+            .then(
+                (success) => {
+                    if (success.data.status == 1) {
+                        notify(success.data.msg, "success");
+                        getCategory();
+                    } else {
+                        notify(success.data.msg, "error");
+                    }
+                }
+            )
+            .catch(
+                (error) => {
+                    notify("Client side error", "error");
+                }
+            )
+    }
+
     const breadcrum = [
         {
             name: "Category",
@@ -11,12 +82,18 @@ const View = () => {
     ]
     return (
         <Card>
+            <Link to={"/admin/category/add"}>
+                <FaCirclePlus className='ml-auto my-2 text-4xl' />
+            </Link>
             <BreadCrum items={breadcrum} />
             <hr />
             <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Sr
+                            </th>
                             <th scope="col" className="px-6 py-3">
                                 Name
                             </th>
@@ -27,44 +104,58 @@ const View = () => {
                                 Image
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td className="px-6 py-4">Silver</td>
-                            <td className="px-6 py-4">Laptop</td>
-                            <td className="px-6 py-4">$2999</td>
-                        </tr>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                Microsoft Surface Pro
-                            </th>
-                            <td className="px-6 py-4">White</td>
-                            <td className="px-6 py-4">Laptop PC</td>
-                            <td className="px-6 py-4">$1999</td>
-                        </tr>
-                        <tr className="bg-white dark:bg-gray-800">
-                            <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                Magic Mouse 2
-                            </th>
-                            <td className="px-6 py-4">Black</td>
-                            <td className="px-6 py-4">Accessories</td>
-                            <td className="px-6 py-4">$99</td>
-                        </tr>
+                        {
+                            category.map(
+                                (cat, index) => {
+                                    return (
+                                        <tr key={cat._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th
+                                                scope="row"
+                                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                            >
+                                                {index + 1}
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                {cat.name}
+                                            </td>
+                                            <td className="px-6 py-4">{cat.slug}</td>
+                                            <td className="px-6 py-4">
+                                                <img width={50} src={apiBaseUrl + imgBaseUrl + cat.image} alt="" />
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {
+                                                    cat.status
+                                                        ?
+                                                        <button onClick={() => updateStatus(cat._id, false)} title="Click to inactive" className='p-3 bg-green-400 text-white'>
+                                                            Active
+                                                        </button>
+                                                        : <button onClick={() => updateStatus(cat._id, true)} title="Click to active" className='p-3 bg-orange-400 text-white'>
+                                                            Inactive
+                                                        </button>
+                                                }
+
+                                            </td>
+                                            <td className="px-6 py-4 flex gap-3 items-center">
+                                                <MdDeleteOutline onClick={() => delCat(cat._id, cat.image)} className='text-2xl cursor-pointer text-red-500' />
+
+                                                <Link to={"/admin/category/edit/" + cat._id}>
+                                                    <FaPencilAlt className='cursor-pointer text-blue-500' />
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )
+                        }
+
                     </tbody>
                 </table>
             </div>
