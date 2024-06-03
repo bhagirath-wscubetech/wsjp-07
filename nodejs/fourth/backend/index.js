@@ -5,6 +5,8 @@ const url = require('url');
 const server = http.createServer(
     (req, res) => {
         res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        // Set allowed methods
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         const parseUrl = url.parse(req.url, true);
         if (parseUrl.pathname == "/create-file" && req.method == "GET") {
             fs.writeFile(
